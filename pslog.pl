@@ -20,7 +20,8 @@ sub info{
 		my $process = stat($proc.$pid.'/cmdline'); #Getting stats from cmdline file.
 		$uid, $gid = $process->uid, $process->gid; #Getting uid and gid from cmdline stats.
 		$ctime = ctime($process->ctime);#Getting creation time from cmdline.
-		$user, $group = getpwuid($uid), getgrgid($gid);
+		$user = getpwuid($uid);
+		$group = getgrgid($gid);
 		open(my $f,'<:encoding(UTF-8)',$proc.$pid.'/cmdline');
 		$cmd = <$f> =~ s/\0/ /r; #Removing Nullbytes from cmdline content before print.
 		print "$ctime  pid=$pid \t uid=$uid/$user \t gid=$gid/$group \t $cmd\n";
